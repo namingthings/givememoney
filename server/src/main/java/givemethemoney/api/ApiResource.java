@@ -23,8 +23,12 @@ import static java.util.stream.Collectors.toList;
 @Path("price")
 public class ApiResource {
 
+  private SearchProviders searchProviders;
+
   @Autowired
-  SearchProviders searchProviders;
+  public ApiResource(SearchProviders searchProviders) {
+    this.searchProviders = searchProviders;
+  }
 
   @GET
   @Produces("application/json")
@@ -32,7 +36,7 @@ public class ApiResource {
     return getPricesFromStream(query);
   }
 
-  private List<String> getPricesFromStream(String query) {
+  List<String> getPricesFromStream(String query) {
     return searchProviders.getSearchProviders()
       .parallelStream()
       .map(searchProvider -> {
